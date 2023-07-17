@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { resolveSingleAddressUns } from './Resolution';
+import { resolveMultiAddressUns, resolveSingleAddressUns } from './Resolution';
 
 function useInput() {
   const [value, setValue] = useState("");
@@ -16,14 +16,33 @@ function useInput() {
 
 function App() {
   const inputDomain = useInput();
-  const inputCurrency = useInput();
+  //const inputCurrency = useInput();
   const [address, setAddress] = useState("")
+  const [currency, setCurrency] = useState("ETH");
+
+  const handleCurrencyChange = (e: any) => {
+    setCurrency(e.target.value);
+  };
 
   const resolution = async () => {
-    const result = await resolveSingleAddressUns(inputDomain.value, inputCurrency.value)
+    let result
+    if (currency === "ETH") {
+      result = await resolveSingleAddressUns(inputDomain.value, currency)
+    } else if (currency === "MATIC") {
+      result = await resolveMultiAddressUns(inputDomain.value, currency, "ERC20")
+    } else {
+      result = ""
+    }
+    
     if (typeof result === "string")
       setAddress(result)
   }
+
+  useEffect(() => {
+    if (inputDomain.value) {
+      resolution()
+    }
+}, [currency]);
     
   return (
     <div className="App">
@@ -34,12 +53,15 @@ function App() {
         </p>
         <input
           {...inputDomain}
-          placeholder="Type Unstoppable Domain here"
+          placeholder="UNS"
         />
-        <input
-          {...inputCurrency}
-          placeholder="Type currency here (ETH, USDT, ...)"
-        />
+        <label>
+          Currency
+          <select value={currency} onChange={handleCurrencyChange}>
+            <option value="MATIC">MATIC</option>
+            <option value="ETH">ETH</option>
+          </select>
+        </label>
         <p>{address}</p>
         <button onClick={resolution}>Resolve</button>
         <a
