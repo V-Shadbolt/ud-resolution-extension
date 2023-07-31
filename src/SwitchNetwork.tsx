@@ -18,7 +18,7 @@ export function SwitchNetwork() {
     {isConnected && (
     <div className='pr-4'>
       <select 
-        className='inline-block rounded-lg bg-[#3596FF] px-3 text-lg text-white tracking-tight font-normal font-roboto h-[39px] w-[120px]' 
+        className='inline-block rounded-lg bg-[#0D67FE] px-3 text-sm text-white tracking-tight font-normal font-roboto h-[39px] w-[120px]' 
         value={chain?.name} 
         onChange={handleNetworkChange}
         >

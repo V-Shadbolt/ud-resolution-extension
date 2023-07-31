@@ -6,7 +6,7 @@ import {
 import { Web3Button } from '@web3modal/react'
 import { reverseResolution } from './Resolution'
 import { useEffect } from 'react'
-import { useLocalStorage } from './utils'
+import { useLocalStorage, truncate } from './utils'
 import { useDebounce } from 'use-debounce'
   
   export function Profile() {
@@ -37,12 +37,13 @@ import { useDebounce } from 'use-debounce'
     if (isConnected) {
       return (
         <div className='max-w-[300px]'>
-          <button className='inline-block rounded-lg bg-[#3596FF] px-3 text-lg text-white tracking-tight font-normal font-roboto max-w-[256px] w-auto min-h-[39px] h-auto' onClick={logout}>{domain ?? address}</button>
+          <button className='inline-block rounded-lg bg-[#0D67FE] px-3 text-sm text-white tracking-tight font-normal font-roboto max-w-[256px] min-w-[120px] w-auto h-[39px]' onClick={logout}>{truncate(domain ?? address)}</button>
         </div>
       )
     }
     return (
-      <Web3Button />
+      <div>
+        <Web3Button />
+      </div>
     )
   }
-  

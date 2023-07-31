@@ -17,3 +17,11 @@ export const useLocalStorage = (
     
       return [value, setValue];
 };
+
+export const truncate = (string: string) => {
+  const maxLength = 24
+  if (string.length > maxLength) {
+    return string.substring(0, 10) + '...' + string.substring(string.length-10);
+  }
+  return string
+}

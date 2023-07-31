@@ -77,11 +77,7 @@ let messaging = ""
 if (error === "UnregisteredDomain") {
     messaging = "Err: Domain is not registered"
 } else if (error === "RecordNotFound") {
-    messaging = "Err: Crypto record is not found (or empty)"
-} else if (error === "UnspecifiedResolver") {
-    messaging = "Err: Domain is not configured (empty resolver)"
-} else if (error === "UnsupportedDomain") {
-    messaging = "Err: Domain is not supported"
+    messaging = "Err: This domain doesn't have an address for this token. Let the owner know to add one!"
 } else {
     messaging = "Err: An unknown issue occured: " + error
 }
