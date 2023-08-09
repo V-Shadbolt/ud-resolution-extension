@@ -7,7 +7,7 @@ import udLogo from "./assets/ud-logo-lockup.svg"
 function App() {
     
   return (
-      <div className="flex flex-col mx-auto px-3 py-3 h-[550px] w-[350px] bg-[#F5F5F5]">
+      <div className="flex flex-col mx-auto px-3 py-3 h-[550px] w-[368px] bg-[#F5F5F5] font-sans">
         <img className="relative mx-auto pt-0 h-auto w-[50%]" src={udLogo} alt="udlogo"/>
         <div id='Connection' className='flex flex-row justify-center items-center pb-3 pt-3 h-[100px]'>
           <SwitchNetwork />

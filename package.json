@@ -2,23 +2,23 @@
   "name": "ud-resolution-extension",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
+  "type": "commonjs",
   "dependencies": {
-    "@parcel/config-webextension": "^2.9.3",
+    "@craco/craco": "^7.1.0",
+    "@headlessui/react": "^1.7.16",
+    "@heroicons/react": "^2.0.18",
+    "@rainbow-me/rainbowkit": "^1.0.8",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/chrome": "^0.0.242",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.38",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@unstoppabledomains/resolution": "^9.1.0",
     "@unstoppabledomains/tldsresolverkeys": "^2.3.7",
-    "@web3modal/ethereum": "^2.7.0",
-    "@web3modal/react": "^2.7.0",
-    "crx-hotreload": "^1.0.6",
-    "parcel-bundler": "^1.12.5",
-    "parcel-plugin-static-files-copy": "^2.6.0",
+    "punycode": "^2.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -29,8 +29,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "NODE_ENV=development parcel watch src/manifest.json",
-    "build": "NODE_ENV=production parcel build src/manifest.json"
+    "start": "react-scripts start",
+    "build": "INLINE_RUNTIME_CHUNK=false react-scripts build"
   },
   "eslintConfig": {
     "extends": [
@@ -40,9 +40,11 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "chrome >= 67",
+      "edge >= 79",
+      "firefox >= 68",
+      "opera >= 54",
+      "safari >= 14"
     ],
     "development": [
       "last 1 chrome version",

@@ -1,3 +1,4 @@
+import punycode from 'punycode';
 import Resolution from "@unstoppabledomains/resolution";
 import { udResolverKeys } from '@unstoppabledomains/tldsresolverkeys';
 
@@ -63,6 +64,19 @@ export async function isValidUnstoppableDomainName(domain: string) {
       });
 
   return isValidUD;
+}
+
+export function isValidDomainName(domain: string) {
+  const match = punycode
+    .toASCII(domain)
+    .toLowerCase()
+    // Checks that the domain consists of at least one valid domain pieces separated by periods, followed by a tld
+    // Each piece of domain name has only the characters a-z, 0-9, and a hyphen (but not at the start or end of chunk)
+    // A chunk has minimum length of 1, minimum tld is set to 1
+    .match(
+      /^(?:[a-z0-9](?:[-a-z0-9]*[a-z0-9])?\.)+[a-z0-9]*[-a-z0-9]$/u,
+    );
+  return match !== null;
 }
 
 export function determineAddressType(asset: string) {

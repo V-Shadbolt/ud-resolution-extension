@@ -1,0 +1,224 @@
+import { erc20ABI } from "wagmi"
+
+const usdtAbi = [
+    {
+        type: 'event',
+        name: 'Approval',
+        inputs: [
+            {
+                indexed: true,
+                name: 'owner',
+                type: 'address',
+            },
+            {
+                indexed: true,
+                name: 'spender',
+                type: 'address',
+            },
+            {
+                indexed: false,
+                name: 'value',
+                type: 'uint256',
+            },
+        ],
+    },
+    {
+        type: 'event',
+        name: 'Transfer',
+        inputs: [
+            {
+                indexed: true,
+                name: 'from',
+                type: 'address',
+            },
+            {
+                indexed: true,
+                name: 'to',
+                type: 'address',
+            },
+            {
+                indexed: false,
+                name: 'value',
+                type: 'uint256',
+            },
+        ],
+    },
+    {
+        type: 'function',
+        name: 'allowance',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'owner',
+                type: 'address',
+            },
+            {
+                name: 'spender',
+                type: 'address',
+            },
+        ],
+        outputs: [
+            {
+                name: '',
+                type: 'uint256',
+            },
+        ],
+    },
+    {
+        type: 'function',
+        name: 'approve',
+        stateMutability: 'nonpayable',
+        inputs: [
+            {
+                name: 'spender',
+                type: 'address',
+            },
+            {
+                name: 'amount',
+                type: 'uint256',
+            },
+        ],
+        outputs: [
+            {
+                name: '',
+                type: 'bool',
+            },
+        ],
+    },
+    {
+        type: 'function',
+        name: 'balanceOf',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'account',
+                type: 'address',
+            },
+        ],
+        outputs: [
+            {
+                name: '',
+                type: 'uint256',
+            },
+        ],
+    },
+    {
+        type: 'function',
+        name: 'decimals',
+        stateMutability: 'view',
+        inputs: [],
+        outputs: [
+            {
+                name: '',
+                type: 'uint8',
+            },
+        ],
+    },
+    {
+        type: 'function',
+        name: 'name',
+        stateMutability: 'view',
+        inputs: [],
+        outputs: [
+            {
+                name: '',
+                type: 'string',
+            },
+        ],
+    },
+    {
+        type: 'function',
+        name: 'symbol',
+        stateMutability: 'view',
+        inputs: [],
+        outputs: [
+            {
+                name: '',
+                type: 'string',
+            },
+        ],
+    },
+    {
+        type: 'function',
+        name: 'totalSupply',
+        stateMutability: 'view',
+        inputs: [],
+        outputs: [
+            {
+                name: '',
+                type: 'uint256',
+            },
+        ],
+    },
+    {
+        type: 'function',
+        name: 'transfer',
+        stateMutability: 'nonpayable',
+        inputs: [
+            {
+                name: 'recipient',
+                type: 'address',
+            },
+            {
+                name: 'amount',
+                type: 'uint256',
+            },
+        ],
+        outputs: [],
+    },
+    {
+        type: 'function',
+        name: 'transferFrom',
+        stateMutability: 'nonpayable',
+        inputs: [
+            {
+                name: 'sender',
+                type: 'address',
+            },
+            {
+                name: 'recipient',
+                type: 'address',
+            },
+            {
+                name: 'amount',
+                type: 'uint256',
+            },
+        ],
+        outputs: [
+            {
+                name: '',
+                type: 'bool',
+            },
+        ],
+    },
+] as const
+
+export const ethAssets = [
+{ id: 1, 
+    symbol: 'ETH',
+    version: 'ERC20',
+    contract: '',
+    abi: erc20ABI
+},
+{ id: 2, 
+    symbol: 'USDT',
+    version: 'ERC20',
+    contract: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+    abi: usdtAbi
+},
+{ id: 3, 
+    symbol: 'MATIC',
+    version: 'ERC20',
+    contract: '0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0',
+    abi: erc20ABI
+},
+] as const
+  
+export const polygonAssets = [
+{ id: 1, 
+    symbol: 'MATIC',
+    version: 'MATIC',
+    contract: '',
+    abi: erc20ABI
+},
+] as const

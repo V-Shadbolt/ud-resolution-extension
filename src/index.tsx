@@ -1,22 +1,65 @@
+import './index.css';
+import '@rainbow-me/rainbowkit/styles.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
-import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
-import { Web3Modal } from '@web3modal/react'
+import {
+  lightTheme,
+  RainbowKitProvider,
+  connectorsForWallets,
+} from '@rainbow-me/rainbowkit';
+import {
+  metaMaskWallet,
+  trustWallet,
+  injectedWallet,
+  rainbowWallet,
+  walletConnectWallet,
+  braveWallet,
+  coinbaseWallet,
+  phantomWallet,
+} from '@rainbow-me/rainbowkit/wallets';
+import { publicProvider } from 'wagmi/providers/public';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi'
 import { mainnet, polygon } from 'wagmi/chains'
 
 const chains = [mainnet, polygon]
 const projectId = 'f0b8d1f9d2e1714f1703b845f015363f'//process.env.REACT_APP_WCV2_PROJECT_ID!
 
-const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
+const connectors = connectorsForWallets([
+  {
+    groupName: 'Recommended',
+    wallets: [
+      metaMaskWallet({
+        projectId,
+        chains,
+      }),
+      trustWallet({
+        projectId,
+        chains,
+      }),
+      braveWallet({
+        chains,
+      }),
+      injectedWallet({ chains }),
+      coinbaseWallet({
+        appName: 'Unstoppable Domains Extension',
+        chains,
+      }),
+      rainbowWallet({ projectId, chains }),
+      walletConnectWallet({ projectId, chains }),
+      phantomWallet({
+        chains,
+      }),
+    ],
+  },
+]);
+
+const { publicClient } = configureChains(chains, [publicProvider()])
 const wagmiConfig = createConfig({
   autoConnect: true,
-  connectors: w3mConnectors({ projectId, chains }),
+  connectors,
   publicClient
 })
-const ethereumClient = new EthereumClient(wagmiConfig, chains)
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -24,15 +67,17 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <WagmiConfig config={wagmiConfig}>
-      <App />
+      <RainbowKitProvider 
+      chains={chains} 
+      modalSize='compact'
+      theme={lightTheme({
+        accentColor: '#0D67FE',
+        accentColorForeground: 'white',
+        borderRadius: 'medium',
+      })}
+      >
+        <App />
+      </RainbowKitProvider>
     </WagmiConfig>
-    <Web3Modal 
-      projectId={projectId} 
-      ethereumClient={ethereumClient} 
-      themeVariables={{
-        '--w3m-accent-color': '#0D67FE',
-        '--w3m-background-color': '#0D67FE',
-      }}
-    />
   </React.StrictMode>
 );
