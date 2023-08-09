@@ -295,7 +295,7 @@ return (
             Max
           </button>
         </div>
-        {{balance} && <span aria-label="Balance" className='text-black text-xs text-center max-w-[330px]'>{`Balance: ${balance}`}</span>}
+        {isConnected && {balance} && <span aria-label="Balance" className='text-black text-xs text-center max-w-[330px]'>{`Balance: ${balance}`}</span>}
       </div>
       {asset?.contract ? SendErc20(to, asset, debouncedAmount, chain, (amount && (Number(amount) <= balance))) : SendNative(to, asset, debouncedAmount, chain, (amount && (Number(amount) <= balance)))}
     </div>
