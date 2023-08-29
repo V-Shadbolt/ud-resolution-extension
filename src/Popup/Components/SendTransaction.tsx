@@ -12,7 +12,7 @@ import { Address, isAddress, parseEther } from 'viem'
 import { useNetwork } from 'wagmi'
 import { fetchEnsAddress } from '@wagmi/core'
 import { determineAddressType, isValidDomainName, isValidUnstoppableDomainName, resolveMultiAddressUns, resolveSingleAddressUns } from './Resolution'
-import { ethAssets, polygonAssets } from './constants'
+import { ethAssets, polygonAssets } from '../Utils/constants'
 import { Listbox } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 
@@ -248,7 +248,7 @@ return (
                     aria-hidden="true"
                   />
                   <div className='relative pl-1 pr-2'>
-                   {isConnected && asset?.symbol && (<img className='h-5 w-5' src={`./${asset?.symbol}-${asset?.version}.png`} alt='assetLogo' key={asset?.id}/>)}
+                   {isConnected && asset?.symbol && (<img className='h-5 w-5' src={`./assets/images/${asset?.symbol}-${asset?.version}.png`} alt='assetLogo' key={asset?.id}/>)}
                   </div>
                   <span className='relative'>{isConnected ? asset?.symbol : ''}</span>
                 </Listbox.Button>
@@ -263,7 +263,7 @@ return (
                     >
                       {token?.symbol === asset?.symbol && <CheckIcon className="h-4 w-4 text-gray-500 mr-2" aria-hidden="true" />}
                       <div className='pr-1 '>
-                        {isConnected && token?.symbol && (<img className='h-5 w-5' src={`./${token?.symbol}-${token?.version}.png`} alt='assetLogo' key={token?.id}/>)}
+                        {isConnected && token?.symbol && (<img className='h-5 w-5' src={`./assets/images/${token?.symbol}-${token?.version}.png`} alt='assetLogo' key={token?.id}/>)}
                       </div>
                       <div>
                       </div>

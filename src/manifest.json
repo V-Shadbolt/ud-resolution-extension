@@ -1,0 +1,19 @@
+{
+   "name": "Unstoppable Domains Extension",
+   "description": "Send Crypto to Unstoppable domains",
+   "version": "1.0",
+   "manifest_version": 3,
+   "background": { "service_worker": "background.bundle.js" },
+   "action": {
+    "default_popup": "popup.html",
+    "default_icon": "logo192.png"
+  },
+  "icons": {
+    "192": "logo192.png"
+  },
+  "permissions": [
+    "webRequest",
+    "storage",
+    "scripting"
+  ]
+}

@@ -61,9 +61,8 @@ const wagmiConfig = createConfig({
   publicClient
 })
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const container = document.getElementById('app-container')
+const root = ReactDOM.createRoot(container!)
 root.render(
   <React.StrictMode>
     <WagmiConfig config={wagmiConfig}>

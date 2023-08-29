@@ -6,7 +6,7 @@ import {
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { reverseResolution } from './Resolution'
 import { useEffect, useState } from 'react'
-import { useLocalStorage, truncate } from './utils'
+import { useLocalStorage, truncate } from '../Utils/utils'
 import { useDebounce } from 'use-debounce'
 import { Listbox } from '@headlessui/react'
 
@@ -43,13 +43,17 @@ export function Profile() {
     }, 2000);
   };
 
+  const sendMessage = () => {
+    chrome.runtime.sendMessage({ greeting: 'hello' });
+  }
+
   if (isConnected) {
     return (
       <div className='max-w-[300px]'>
         <Listbox value={address || ''}>
         <div className='flex flex-col'>
           <Listbox.Button
-          className='inline-flex items-center rounded-lg bg-[#0D67FE] px-3 text-sm text-white tracking-tight font-normal font-roboto max-w-[256px] min-w-[120px] w-auto h-[39px]'
+          className='inline-flex items-center rounded-lg bg-[#0D67FE] px-3 text-sm text-white tracking-tight font-normal font-roboto max-w-[256px] min-w-[120px] w-auto h-[39px] text-center justify-center'
           >
             {truncate(domain ?? address)}
           </Listbox.Button>
@@ -79,6 +83,7 @@ export function Profile() {
   return (
     <div>
       <ConnectButton label='Connect Wallet'/>
+      <button onClick={() => sendMessage}>Login</button>
     </div>
   )
 }

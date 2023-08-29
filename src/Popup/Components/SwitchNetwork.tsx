@@ -35,7 +35,7 @@ export function SwitchNetwork() {
       <Listbox value={chain?.name || ''} onChange={handleNetworkChange}>
       <div className='flex flex-col'>
         <Listbox.Button
-        className='inline-flex items-center rounded-lg bg-[#0D67FE] px-3 text-sm text-white tracking-tight font-normal font-roboto h-[39px] w-[120px]'
+        className='inline-flex items-center rounded-lg bg-[#0D67FE] px-3 text-sm text-white tracking-tight font-normal font-roboto h-[39px] w-[120px] text-center justify-center'
         >
           <ChevronDownIcon
             className="h-4 w-4"

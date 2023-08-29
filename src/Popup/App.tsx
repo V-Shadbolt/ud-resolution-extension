@@ -1,8 +1,8 @@
 import './App.css';
-import { SendTransaction } from './SendTransaction';
-import { SwitchNetwork } from './SwitchNetwork';
-import { Profile } from './Profile';
-import udLogo from "./assets/ud-logo-lockup.svg"
+import { SendTransaction } from './Components/SendTransaction';
+import { SwitchNetwork } from './Components/SwitchNetwork';
+import { Profile } from './Components/Profile';
+import udLogo from "./assets/images/ud-logo.svg"
 
 function App() {
     
