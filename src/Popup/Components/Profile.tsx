@@ -42,36 +42,41 @@ export function Profile() {
       setCopied(false)
     }, 2000);
   };
-
-  const sendMessage = () => {
-    chrome.runtime.sendMessage({ greeting: 'hello' });
+/*
+  // Send message to background script
+  const sendMessage = async () => {
+    const response = await chrome.runtime.sendMessage({ greeting: 'hello'});
+    console.log(response)
   }
-
+*/
   if (isConnected) {
     return (
       <div className='max-w-[300px]'>
         <Listbox value={address || ''}>
-        <div className='flex flex-col'>
+        <div className='flex flex-col text-lg'>
           <Listbox.Button
-          className='inline-flex items-center rounded-lg bg-[#0D67FE] px-3 text-sm text-white tracking-tight font-normal font-roboto max-w-[256px] min-w-[120px] w-auto h-[39px] text-center justify-center'
+          className='inline-flex items-center rounded-lg bg-[#0D67FE] px-3 text-white tracking-tight font-normal font-roboto max-w-[256px] min-w-[120px] w-auto h-[39px] text-center justify-center'
           >
             {truncate(domain ?? address)}
           </Listbox.Button>
           <Listbox.Options
-            className='absolute z-50 max-h-60 min-h-[39px] overflow-auto rounded-lg bg-[#0D67FE] text-white text-sm shadow-md px-2 focus:outline-none focus:shadow-outline max-w-[256px] min-w-[120px] w-auto'
+            className='absolute z-50 max-h-60 min-h-[39px] overflow-auto rounded-lg bg-white border border-[#0D67FE] px-2 max-w-[256px] min-w-[120px] w-auto'
           >
             <Listbox.Option 
               className='flex flex-col mb-1 mt-1'
               value='Copy'
-            >
-              <button className='text-xs items-center hover:text-[#00C9FF]' onClick={() => copyAddress()}>{truncate(address || '')}</button>
-              <span ></span>
+          >
+              <button className='text-xs items-center hover:text-[#0D67FE] group' onClick={() => copyAddress()}>
+                {truncate(address || '')}
+                <span className="group-hover:opacity-100 transition-opacity bg-[#0D67FE] px-1 text-sm text-white rounded-md absolute left-1/2 -translate-x-1/2 translate-y-full pointer-events-none opacity-0 mx-auto">Copy</span>
+              </button>
+              
             </Listbox.Option>
             <Listbox.Option 
-              className='flex flex-row items-center mb-1 mt-1 hover:text-[#00C9FF]'
+              className={'flex flex-row items-center mb-1 mt-1'}
               value='Logout' 
             >
-              <button onClick={() => disconnect()}>Logout</button>
+              <button className='hover:text-[#0D67FE]' onClick={() => disconnect()}>Logout</button>
             </Listbox.Option>
           </Listbox.Options>
           </div>
@@ -81,9 +86,8 @@ export function Profile() {
     )
   }
   return (
-    <div>
+    <div className='text-lg'>
       <ConnectButton label='Connect Wallet'/>
-      <button onClick={() => sendMessage}>Login</button>
     </div>
   )
 }

@@ -74,6 +74,10 @@ root.render(
         accentColorForeground: 'white',
         borderRadius: 'medium',
       })}
+      appInfo={{
+        appName: 'Unstoppable Domains Extension',
+        learnMoreUrl: 'https://unstoppabledomains.com/',
+      }}
       >
         <App />
       </RainbowKitProvider>

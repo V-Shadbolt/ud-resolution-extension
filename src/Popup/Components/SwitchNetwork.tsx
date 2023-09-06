@@ -33,9 +33,9 @@ export function SwitchNetwork() {
     {isConnected && (
     <div className='pr-4'>
       <Listbox value={chain?.name || ''} onChange={handleNetworkChange}>
-      <div className='flex flex-col'>
+      <div className='flex flex-col text-lg'>
         <Listbox.Button
-        className='inline-flex items-center rounded-lg bg-[#0D67FE] px-3 text-sm text-white tracking-tight font-normal font-roboto h-[39px] w-[120px] text-center justify-center'
+        className='inline-flex items-center rounded-lg bg-[#0D67FE] px-3 text-white tracking-tight font-normal font-roboto h-[39px] w-[120px] text-center justify-center'
         >
           <ChevronDownIcon
             className="h-4 w-4"
@@ -44,16 +44,16 @@ export function SwitchNetwork() {
           {chain?.name}
         </Listbox.Button>
         <Listbox.Options
-          className='absolute z-50 max-h-60 min-h-[39px] overflow-auto rounded-lg bg-[#0D67FE] text-white shadow-md px-2 focus:outline-none focus:shadow-outline w-[120px]'
+          className='absolute z-50 max-h-60 min-h-[39px] overflow-auto rounded-lg bg-white border border-[#0D67FE] px-2 w-[120px]'
         >
           {chains.map((x) => (
               <Listbox.Option 
-                className='flex flex-row items-center mb-1 mt-1 hover:text-[#00C9FF]'
+                className='flex flex-row items-center mb-1 mt-1'
                 value={x?.name || ''} 
                 key={x?.id}
               >
-                {x.name === chain?.name && <CheckIcon className="h-4 w-4 text-gray-950 mr-2" aria-hidden="true" />}
-                <span className={x?.name === chain?.name ? 'text-gray-950' : ''}>{x?.name}</span>
+                {x.name === chain?.name && <CheckIcon className="h-4 w-4 text-gray-500 mr-2" aria-hidden="true" />}
+                <button className={x?.name === chain?.name ? 'text-gray-500' : 'hover:text-[#0D67FE]'}>{x?.name}</button>
               </Listbox.Option>
           ))}
         </Listbox.Options>

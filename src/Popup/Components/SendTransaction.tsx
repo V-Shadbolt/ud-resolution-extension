@@ -49,7 +49,7 @@ function SendErc20(to: any, asset: any, amount: any, chain: any, enabled: any) {
       <div className='pt-5'>
         <button 
         aria-label="Send"
-        className='inline-block rounded-lg bg-[#0D67FE] px-3 text-md text-white tracking-tight font-normal h-[39px]'
+        className='inline-block rounded-lg bg-[#0D67FE] px-3 text-md text-white tracking-tight font-normal h-[39px] text-lg'
         disabled={isLoading || !to || !amount || !write}
         onClick={() => write?.()}
         >
@@ -58,7 +58,7 @@ function SendErc20(to: any, asset: any, amount: any, chain: any, enabled: any) {
       </div>
       
       {isSuccess && (
-        <div className='pt-5 text-black text-xs max-w-[330px] text-center'>
+        <div className='pt-5 text-black text-md max-w-[330px] text-center'>
           {`Successfully sent ${amount} ${asset?.symbol}! 🎉`}
           <div className='pt-1'>
             <a className='underline' href={`${chain?.blockExplorers?.default?.url}/tx/${data?.hash}`} target="_blank" rel="noopener noreferrer">View Transaction</a>
@@ -75,23 +75,23 @@ function SendNative(to: any, asset: any, amount: any, chain: any, enabled: any) 
     value: amount ? parseEther(amount) : undefined,
     enabled: enabled
   })
-  const { data, isLoading, isSuccess, sendTransaction } = useSendTransaction(config)
+  const { data, isLoading, isSuccess, isError ,sendTransaction } = useSendTransaction(config)
 
   return (
     <>
-      <div className='pt-5'>
+      <div className='pt-5 text-lg'>
         <button 
         aria-label="Send"
         className='inline-block rounded-lg bg-[#0D67FE] px-3 text-md text-white tracking-tight font-normal h-[39px]'
         disabled={isLoading || !to || !amount || !sendTransaction}
         onClick={() => sendTransaction?.()}
         >
-          {isLoading ? 'Sending...' : `Send ${(Math.floor(Number(amount)*100000000)/100000000) || 0} ${asset?.symbol}`}
+          {!isError && isLoading ? 'Sending...' : `Send ${(Math.floor(Number(amount)*100000000)/100000000) || 0} ${asset?.symbol}`}
         </button>
       </div>
       
       {isSuccess && (
-        <div className='pt-5 text-black text-xs max-w-[330px] text-center'>
+        <div className='pt-5 text-black text-md max-w-[330px] text-center'>
           {`Successfully sent ${amount} ${asset?.symbol}! 🎉`}
           <div className='pt-1'>
             <a className='underline' href={`${chain?.blockExplorers?.default?.url}/tx/${data?.hash}`} target="_blank" rel="noopener noreferrer">View Transaction</a>
@@ -140,6 +140,7 @@ export function SendTransaction() {
   // Resolve
   const Resolution = async () => {
     let result = ''
+    let data = `0x${''}` || null
     if (isValidDomainName(input) && await isValidUnstoppableDomainName(input)) {
       setIsDomain(true)
       const addressType = determineAddressType(asset?.symbol || '')
@@ -151,15 +152,16 @@ export function SendTransaction() {
         result.includes('Err: ') ? setError((result.split('Err: ')[1])) : setTo(result)
       }
     } else if (isValidDomainName(input)) {
-      if (chain?.id === 1) {
-        setIsDomain(true)
-        await fetchEnsAddress({
+      setIsDomain(true)
+      try {
+        data = await fetchEnsAddress({
           name: input,
           chainId: chain?.id
-        }).then((data) => setTo(data)).catch(() => setError('Invalid domain'))
-      } else {
-        setError('ENS does not support this chain')
+        })
+      } catch {
+        data = null
       }
+      typeof data !== 'string' ? setError("Invalid Domain") : setTo(data)
     } else {
       if (input) {
         isAddress(input) ? setTo(input) : setError('Invalid address')
@@ -204,16 +206,16 @@ const handleAssetChange = (e: any) => {
 
 // Visual error messaging on user inputs
 let inputClass = error 
-? 'bg-white border-2 border-red-500 shadow-md rounded px-2 mb-1 focus:outline-none focus:shadow-outline h-[39px] w-[300px]' 
+? 'bg-white border border-red-500 rounded-lg px-2 mb-1 h-[49px] w-[325px] text-lg' 
 : to 
-? 'bg-white border-2 border-green-500 shadow-md rounded px-2 mb-1 focus:outline-none focus:shadow-outline h-[39px] w-[300px]'
-: 'bg-white shadow-md rounded px-2 mb-1 focus:outline-none focus:shadow-outline h-[39px] w-[300px]'
+? 'bg-white border border-green-500 rounded-lg px-2 mb-1 h-[49px] w-[325px] text-lg'
+: 'bg-white rounded-lg px-2 mb-1 border border-slate-300 focus:border-[#0D67FE] h-[49px] w-[325px] text-lg'
 
 let amountClass = Number(amount) > balance
-? 'bg-white border-2 border-red-500 shadow-md rounded-l px-2 focus:outline-none focus:shadow-outline h-[39px] w-[150px]'
+? 'bg-white border border-red-500 rounded-l px-2 h-[39px] w-[150px] text-lg'
 : amount 
-? 'bg-white border-2 border-green-500 shadow-md rounded-l px-2 focus:outline-none focus:shadow-outline h-[39px] w-[150px]'
-: 'bg-white shadow-md rounded-l px-2 focus:outline-none focus:shadow-outline h-[39px] w-[150px]'
+? 'bg-white border border-green-500 rounded-l px-2 h-[39px] w-[150px] text-lg'
+: 'bg-white border border-slate-300 focus:border-[#0D67FE] rounded-l px-2 h-[39px] w-[150px] text-lg'
   
 return (
   <>
@@ -239,9 +241,9 @@ return (
           <span className='text-black text-lg pr-[39px] relative'>{'Asset: '}</span>
           <div className='relative'>
             <Listbox value={isConnected ? asset?.symbol : ''} onChange={handleAssetChange} disabled={!isConnected}>
-              <div className='flex flex-col'>
+              <div className='flex flex-col text-lg'>
                 <Listbox.Button
-                className='inline-flex items-center bg-white shadow-md rounded px-2 focus:outline-none focus:shadow-outline h-[39px] w-[149px]'
+                className='inline-flex items-center bg-white border rounded px-2 h-[39px] w-[149px] border-slate-300 focus:border-[#0D67FE]'
                 >
                   <ChevronDownIcon
                     className="h-4 w-4"
@@ -253,11 +255,11 @@ return (
                   <span className='relative'>{isConnected ? asset?.symbol : ''}</span>
                 </Listbox.Button>
                 <Listbox.Options
-                  className='absolute max-h-60 min-h-[39px] overflow-auto rounded bg-white shadow-md px-2 focus:outline-none focus:shadow-outline w-[149px]'
+                  className='absolute max-h-60 min-h-[39px] overflow-auto rounded bg-white px-2 w-[149px] border border-slate-300 focus:border-[#0D67FE]'
                 >
                   {assets.map((token) => (
                     <Listbox.Option
-                      className='flex flex-row items-center mb-1 mt-1 hover:text-[#0D67FE] '
+                      className='flex flex-row items-center mb-1 mt-1'
                       key={token?.id}
                       value={token?.symbol || ''}
                     >
@@ -265,9 +267,7 @@ return (
                       <div className='pr-1 '>
                         {isConnected && token?.symbol && (<img className='h-5 w-5' src={`./assets/images/${token?.symbol}-${token?.version}.png`} alt='assetLogo' key={token?.id}/>)}
                       </div>
-                      <div>
-                      </div>
-                      <span className={token?.symbol === asset?.symbol ? 'text-gray-500' : ''}>{token?.symbol}</span>
+                      <button className={token?.symbol === asset?.symbol ? 'text-gray-500' : 'hover:text-[#0D67FE]'}>{token?.symbol}</button>
                     </Listbox.Option>
                   ))}
                 </Listbox.Options>
@@ -280,6 +280,7 @@ return (
           <input
             className={amountClass}
             type='number'
+            min="0.000001"
             aria-label="Amount"
             onChange={(e) => setAmount(e.target.value.replace(/(?<=\..*)\./g, ''))}
             placeholder="0.05"
@@ -288,7 +289,7 @@ return (
           />
           <button 
           aria-label="Max"
-          className='inline-block rounded-r bg-[#0D67FE] px-3 text-md text-white tracking-tight font-normal h-[39px]'
+          className='inline-block rounded-r bg-[#0D67FE] px-3 text-md text-white tracking-tight font-normal h-[39px] border border-[#0D67FE] text-lg'
           onClick={() => setAmount(String(balance))}
           disabled={!isConnected}
           >
